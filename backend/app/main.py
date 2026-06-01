@@ -74,6 +74,15 @@ def health() -> dict[str, str]:
     return {"status": "ok"}
 
 
+@app.get("/")
+def root() -> dict[str, str]:
+    return {
+        "message": "Inventory & Order Management API",
+        "health": "/health",
+        "docs": "/docs",
+    }
+
+
 @app.post("/products", response_model=ProductRead, status_code=status.HTTP_201_CREATED)
 def create_product(payload: ProductCreate, db: Session = Depends(get_db)) -> Product:
     product = Product(**payload.model_dump())
